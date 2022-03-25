@@ -1,0 +1,111 @@
+{% extends 'user_profile/navbar.html' %}
+
+{% block head %}
+{% endblock %}
+{% block title %}
+	Students
+{% endblock %}
+
+
+{% block content %}
+	
+	{% if messages %}
+		<ul class="messages">
+    		{% for message in messages %}
+    		<li {% if message.tags %} class="{{ message.tags }}"{% endif %}>
+    			{{ message }}
+    		</li>
+    		{% endfor %}
+		</ul>
+	{% endif %}
+
+	<div class="m-3 course">
+		{% if students %}
+			<div class="container">
+				<div class="row">
+					<div class="col-sm">
+						<h3>
+							Students list:
+						</h3>
+					</div>
+					<div class="col-sm input-group">
+						{% if course_id %}
+							<form action="{% url 'user_profile:course_students' course_id %}" method="GET">
+								{{ form }}
+								<button type="submit" class="btn btn-primary">
+									Go
+								</button>
+							</form>
+						{% else %}
+							<form action="/students/" method="GET">
+								{{ form }}
+								<button type="submit" class="btn btn-primary">
+									Go
+								</button>
+							</form>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Name</th>
+						<th scope="col">Qualification</th>
+						<th scope="col">Start Year</th>
+						<th scope="col">Courses</th>
+					</tr>
+				</thead>
+				<tbody>
+					<ol class="student_list">
+						{% for student in students %}
+							<tr class="student_data" id={{ student.id }}>
+								<th scope="row">
+									<li></li>
+								</th>
+								<td>
+									{{ student.user_profile.user.first_name.title }} {{ student.user_profile.user.last_name.title }}
+								</td>
+								<td>
+									{{ student.qualification.title }}
+								</td>
+								<td>
+									{{ student.start_year }}
+								</td>
+								<td>
+									{% for course in student.courses.all %}
+										{% if course_id %}
+											{% if course_id == course.id %}
+												<li>
+													<strong>
+														{{ course }}
+													</strong>
+													
+												</li>
+											{% else %}
+												<li>
+													{{ course }}
+												</li>
+											{% endif %}
+										{% else %}
+											<li>
+												{{ course }}
+											</li>
+										{% endif %}
+									{% endfor %}
+								</td>
+							</tr>
+						{% endfor %}
+					</ol>
+				</tbody>
+			</table>
+		{% else %}
+			<h3>
+				<strong>
+					No Student enrolled yet:
+				</strong>
+			</h3>
+		{% endif %}
+	</div>
+{% endblock %}

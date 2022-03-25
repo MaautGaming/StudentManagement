@@ -1,0 +1,68 @@
+{% extends 'user_profile/navbar.html' %}
+
+{% block head %}
+	{% load static %}
+            <script type="text/javascript" src="{% static 'user_profile/js/button.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+	Courses
+{% endblock %}
+
+
+{% block content %}
+
+	{% if messages %}
+		<ul class="messages">
+	    	{% for message in messages %}
+	    		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+	    	{% endfor %}
+		</ul>
+	{% endif %}
+
+	<div class="m-3 course">
+		{% if courses %}
+			<h3>
+				Courses currently available:
+			</h3>
+			<table>
+				{% for course in courses %}
+					<tr>
+						<td>
+							<li></li>
+						</td>
+						<td>
+							<a href="{% url 'user_profile:course_details' course.id %}">
+								<strong>{{ course.name.title }}</strong>
+							</a>
+						</td>
+						<td>
+							<button class="btn btn-danger" id='{{ course.id }}' name="delete_course">
+								Delete
+							</button>
+							
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+		{% endif %}
+	</div>
+
+	<div class="m-3">
+		<h3>
+			Add courses:
+		</h3>
+		<form method="POST">
+			{% csrf_token %}
+			<table>
+				{{ form.as_table }}
+				<tr>
+					<td>
+						<input type="submit" name="Add_Course" value="Add Course">
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+
+{% endblock %}

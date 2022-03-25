@@ -1,0 +1,67 @@
+{% extends 'user_profile/navbar.html' %}
+
+{% block title %}
+	Courses
+{% endblock %}
+
+{% block content %}
+
+	{% if messages %}
+		<ul class="messages">
+	    	{% for message in messages %}
+	    		<li {% if message.tags %} class="{{ message.tags }}"{% endif %}>
+	    			{{ message }}
+	    		</li>
+	 	   {% endfor %}
+		</ul>
+	{% endif %}
+	<div class="m-3">
+		{% if courses %}
+			<h5>
+				Courses currently enrolled in:
+			</h5>
+			<table>
+				{% for course in courses %}
+					<tr>
+						<td>
+							<li></li>
+						</td>
+						<td>
+							<strong>{{ course.name.title }}</strong>
+						</td>
+						<td>
+							<strong>Duration: </strong>{{ course.duration }}
+						</td>
+						<td>
+							<strong>Pre-requisite: </strong>{{ course.pre_requisite.title }}
+						</td>
+						<td>
+							<strong>Vocational: </strong>{{ course.is_vocational }}
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+		{% endif %}
+	</div>
+
+	<div class="m-3">
+		<h5>
+			<p>
+				Course you can enroll in:
+			</p>
+		</h5>
+
+		<form method="POST">
+			{% csrf_token %}
+			<table>
+				{{ form.as_table }}
+				<tr>
+					<td>
+						<input class="btn btn-dark" type="submit" name="Login" value="Apply">
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+
+{% endblock %}

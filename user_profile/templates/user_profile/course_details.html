@@ -1,0 +1,89 @@
+{% extends 'user_profile/navbar.html' %}
+
+{% block head %}
+{% endblock %}
+
+{% block title %}
+	Courses
+{% endblock %}
+
+
+{% block content %}
+
+	<form>
+		{{ form }}
+	</form>
+
+	{% if messages %}
+		<ul class="messages">
+	    	{% for message in messages %}
+	    		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+	    	{% endfor %}
+		</ul>
+	{% endif %}
+
+	<div class="m-3 course">
+		{% if course %}
+			<h5>
+				{{ course.name.title }}
+			</h5>
+			<ul>
+				<li>
+					<strong>Duration: </strong> {{ course.duration }}
+				</li>
+				<li>
+					<strong>Pre-requisite: </strong> {{ course.pre_requisite.title }}
+				</li>
+				{% if course.is_vocational %}
+					<li>
+						<strong>Course Type: </strong>Vocational
+					</li>
+				{% else %}
+					<li>
+						<strong>Course Type: </strong>Degree
+					</li>
+				{% endif %}
+				<li>
+					<strong>
+						Subjects:
+					</strong>
+					<table class="table">
+						<thead>
+							<tr>
+									<th scope="col">#</th>
+									<th scope="col">Subject</th>
+									<th scope="col">Teacher</th>
+							</tr>
+						</thead>
+						<tbody>
+							<ol>
+								{% for subject in course.subjects.all %}
+								    <tr>
+								     	<th><li></li></th>
+								     	<td>{{ subject.name.title }}</td>
+								     	<td>{{ subject.teacher.user_profile.user.first_name.title }} {{ subject.teacher.user_profile.user.last_name.title }}</td>
+								    </tr>
+								{% endfor %}
+							</ol>
+						</tbody>
+					</table>
+							
+				</li>
+				<li>
+					<a href="{% url 'user_profile:course_students' course.id %}">
+						<strong>
+							Students
+						</strong>
+					</a>
+					enrolled in this course.
+				</li>
+			</ul>
+		{% endif %}
+		<a href="{% url 'user_profile:courses' %}">
+			<button class="btn btn-light">
+				Back to courses
+			</button>
+		</a>
+	</div>
+
+{% endblock %}

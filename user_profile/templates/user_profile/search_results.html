@@ -1,0 +1,23 @@
+{% for student in students %}
+	<tr class="student_data">
+		<th scope="row">
+			<li></li>
+		</th>
+		<td>
+			{{ student.user_profile.user.first_name.title }} {{ student.user_profile.user.last_name.title }}
+		</td>
+		<td>
+			{{ student.qualification.title }}
+		</td>
+		<td>
+			{{ student.start_year }}
+		</td>
+		<td>
+			{% for course in student.courses.all %}
+				<li>
+					{{ course }}
+				</li>
+			{% endfor %}
+		</td>
+	</tr>
+{% endfor %}

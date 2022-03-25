@@ -1,0 +1,63 @@
+{% extends 'user_profile/navbar.html' %}
+
+{% block head %}
+	{% load static %}
+            <script type="text/javascript" src="{% static 'user_profile/js/button.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+	Subjects
+{% endblock %}
+
+
+{% block content %}
+
+	<div>
+		{% if messages %}
+			<ul class="messages">
+    		{% for message in messages %}
+    			<li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    		{% endfor %}
+			</ul>
+		{% endif %}
+	</div>
+
+	<div class="m-3">
+		{% if subjects %}
+			<p>
+				<h3>
+					Subjects you are teaching:
+				</h3> 
+				<table>
+					{% for subject in subjects %}
+						<tr>
+							<td>
+								{{ subject.name.title }}
+							</td>
+							<td>
+								<button id="{{ subject.id }}" class="btn btn-danger" name="delete_subject">
+									Delete
+								</button>
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+			</p>
+		{% endif %}
+	</div>
+
+	<div class="m-3">
+		<p>
+			<h3>
+				Add new subjects to teach:
+			</h3>
+			<form class="subjects" method="POST">
+				{% csrf_token %}
+				<table>
+					{{ formset }}
+				</table>
+				<input type="submit" name="Add_Subject" value="Add Subject">
+			</form>
+		</p>
+	</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'user_profile/base.html' %}
+
+
+{% block title %}
+	Teachers
+{% endblock %}
+
+
+{% block content %}
+	<div class="m-3" name="students">
+		{% if teachers %}
+			<table class="table" id="students">
+				<tr>
+					<th>Id</th>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Username</th>
+				</tr>
+					{% for teacher in teachers %}
+				<tr> 
+					<td>{{ teacher.id }} </td>
+					<td>{{ teacher.user_profile.user.first_name.title }}</td>
+					<td>{{ teacher.user_profile.user.last_name.title }}</td>
+					<td>{{ teacher.user_profile }}</td>           
+				</tr>
+				{% endfor %}
+			</table>
+		{% endif %}
+	</div>
+{% endblock %}
